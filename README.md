@@ -1,6 +1,8 @@
 # java8
 java8源码阅读和笔记
-# 源码阅读方式 参考 https://segmentfault.com/a/1190000022153604
+# 源码阅读方式 参考 
+* https://segmentfault.com/a/1190000022153604
+* https://blog.csdn.net/IT_Migrant_worker/article/details/104743218
 # 源码阅读环境搭建
 # 阅读顺序
 ## 1. java.lang
