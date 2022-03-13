@@ -20,8 +20,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b7ae6af9-2349-4a17-9e16-d53ac60bf478" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src.zip" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/util/HashMapTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -59,6 +57,7 @@
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit5" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5" value="" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/libs/junit-jupiter-api-5.8.2.jar" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="SDKs" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.30867052" />
@@ -135,7 +134,7 @@
       <option name="presentableId" value="Default" />
       <updated>1647140535968</updated>
       <workItem from="1647140537099" duration="810000" />
-      <workItem from="1647141779171" duration="1901000" />
+      <workItem from="1647141779171" duration="2822000" />
     </task>
     <servers />
   </component>
@@ -155,14 +154,14 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="421" y="91" key="FileChooserDialogImpl" timestamp="1647143651913">
+    <state x="421" y="91" key="FileChooserDialogImpl" timestamp="1647143984783">
       <screen x="0" y="0" width="1280" height="672" />
     </state>
-    <state x="421" y="91" key="FileChooserDialogImpl/0.0.1280.672@0.0.1280.672" timestamp="1647143651913" />
-    <state x="121" y="0" key="SettingsEditor" timestamp="1647143669274">
+    <state x="421" y="91" key="FileChooserDialogImpl/0.0.1280.672@0.0.1280.672" timestamp="1647143984783" />
+    <state x="121" y="0" key="SettingsEditor" timestamp="1647143987438">
       <screen x="0" y="0" width="1280" height="672" />
     </state>
-    <state x="121" y="0" key="SettingsEditor/0.0.1280.672@0.0.1280.672" timestamp="1647143669274" />
+    <state x="121" y="0" key="SettingsEditor/0.0.1280.672@0.0.1280.672" timestamp="1647143987438" />
     <state x="405" y="5" key="com.intellij.testIntegration.createTest.CreateTestDialog" timestamp="1647142864441">
       <screen x="0" y="0" width="1280" height="672" />
     </state>
