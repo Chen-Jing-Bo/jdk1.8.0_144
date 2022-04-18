@@ -32,6 +32,9 @@ import java.util.function.Consumer;
  * {@link Enumeration} in the Java Collections Framework.  Iterators
  * differ from enumerations in two ways:
  *
+ * collection上的iterator，替换了Enumeration；iterators和enumerations
+ * 两点不同
+ *
  * <ul>
  *      <li> Iterators allow the caller to remove elements from the
  *           underlying collection during the iteration with well-defined
@@ -58,6 +61,8 @@ public interface Iterator<E> {
      * return an element rather than throwing an exception.)
      *
      * @return {@code true} if the iteration has more elements
+     *
+     * iterator有元素，返回true，而不是throws exception
      */
     boolean hasNext();
 
@@ -66,6 +71,9 @@ public interface Iterator<E> {
      *
      * @return the next element in the iteration
      * @throws NoSuchElementException if the iteration has no more elements
+     *
+     * 返回iterator的下一个元素
+     * 如果iterators没有元素，throws NoSuchElementException
      */
     E next();
 
@@ -88,6 +96,7 @@ public interface Iterator<E> {
      *         yet been called, or the {@code remove} method has already
      *         been called after the last call to the {@code next}
      *         method
+     * 默认remove方法抛出异常
      */
     default void remove() {
         throw new UnsupportedOperationException("remove");
@@ -105,6 +114,8 @@ public interface Iterator<E> {
      *     while (hasNext())
      *         action.accept(next());
      * }</pre>
+     *
+     * 默认 while (hasNext()) 实现
      *
      * @param action The action to be performed for each element
      * @throws NullPointerException if the specified action is null

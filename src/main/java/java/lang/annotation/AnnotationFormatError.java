@@ -32,6 +32,8 @@ package java.lang.annotation;
  * java.lang.reflect.AnnotatedElement API used to read annotations
  * reflectively}.
  *
+ * 当注解解析器试图读取类文件中的注解，格式错误；抛异常
+ *
  * @author  Josh Bloch
  * @see     java.lang.reflect.AnnotatedElement
  * @since   1.5
