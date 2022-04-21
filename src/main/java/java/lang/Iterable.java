@@ -37,14 +37,22 @@ import java.util.function.Consumer;
  * <a href="{@docRoot}/../technotes/guides/language/foreach.html">For-each Loop</a>
  * </strong>
  *
+ * 实现此接口,允许对象成为for-each循环的目标
+ *
  * @param <T> the type of elements returned by the iterator
+ *
+ *  <T> 迭代器返回的元素类型
  *
  * @since 1.5
  * @jls 14.14.2 The enhanced for statement
+ *
+ * 增强for循环
  */
 public interface Iterable<T> {
     /**
      * Returns an iterator over elements of type {@code T}.
+     *
+     * 返回元素类型的 iterator
      *
      * @return an Iterator.
      */
@@ -58,6 +66,8 @@ public interface Iterable<T> {
      * is specified).  Exceptions thrown by the action are relayed to the
      * caller.
      *
+     * 给每个元素指定操作,按照iteration的顺序执行操作
+     *
      * @implSpec
      * <p>The default implementation behaves as if:
      * <pre>{@code
@@ -65,9 +75,13 @@ public interface Iterable<T> {
      *         action.accept(t);
      * }</pre>
      *
+     * 默认的实现行为
+     *
      * @param action The action to be performed for each element
      * @throws NullPointerException if the specified action is null
      * @since 1.8
+     *
+     *为每个元素执行操作,null 的元素抛NPE
      */
     default void forEach(Consumer<? super T> action) {
         Objects.requireNonNull(action);
@@ -79,6 +93,8 @@ public interface Iterable<T> {
     /**
      * Creates a {@link Spliterator} over the elements described by this
      * {@code Iterable}.
+     *
+     * 在Iterable上面创建一个 Spliterator(分路器)
      *
      * @implSpec
      * The default implementation creates an

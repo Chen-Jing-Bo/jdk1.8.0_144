@@ -39,8 +39,13 @@ import java.util.stream.StreamSupport;
  * is typically used to pass collections around and manipulate them where
  * maximum generality is desired.
  *
+ *  集合层级的根接口。jkd不提供此接口的具体直接实现，但是提供了更具体的子接口实现
+ *  比如 set和list接口
+ *
  * <p><i>Bags</i> or <i>multisets</i> (unordered collections that may contain
  * duplicate elements) should implement this interface directly.
+ *
+ * bags或则multisets（可能包含重复元素的无序集合）应该直接实现此接口
  *
  * <p>All general-purpose <tt>Collection</tt> implementation classes (which
  * typically implement <tt>Collection</tt> indirectly through one of its
@@ -54,6 +59,8 @@ import java.util.stream.StreamSupport;
  * constructors) but all of the general-purpose <tt>Collection</tt>
  * implementations in the Java platform libraries comply.
  *
+ * 实现类，应该提供两个构造函数，无参和单参数有参数构造函数
+ *
  * <p>The "destructive" methods contained in this interface, that is, the
  * methods that modify the collection on which they operate, are specified to
  * throw <tt>UnsupportedOperationException</tt> if this collection does not
@@ -63,6 +70,8 @@ import java.util.stream.StreamSupport;
  * the {@link #addAll(Collection)} method on an unmodifiable collection may,
  * but is not required to, throw the exception if the collection to be added
  * is empty.
+ *
+ * 接口包含‘破坏性的’方法，修改集合方法，抛出UnsupportedOperationException异常
  *
  * <p><a name="optional-restrictions">
  * Some collection implementations have restrictions on the elements that
@@ -79,6 +88,8 @@ import java.util.stream.StreamSupport;
  * Such exceptions are marked as "optional" in the specification for this
  * interface.
  *
+ * 处理不合格元素
+ *
  * <p>It is up to each collection to determine its own synchronization
  * policy.  In the absence of a stronger guarantee by the
  * implementation, undefined behavior may result from the invocation
@@ -86,6 +97,8 @@ import java.util.stream.StreamSupport;
  * thread; this includes direct invocations, passing the collection to
  * a method that might perform invocations, and using an existing
  * iterator to examine the collection.
+ *
+ * 每个集合定义自己的同步方法
  *
  * <p>Many methods in Collections Framework interfaces are defined in
  * terms of the {@link Object#equals(Object) equals} method.  For example,
@@ -104,12 +117,16 @@ import java.util.stream.StreamSupport;
  * the specified behavior of underlying {@link Object} methods wherever the
  * implementor deems it appropriate.
  *
+ * collections集合框架接口的许多方法都是Object equals 方法定义的
+ *
  * <p>Some collection operations which perform recursive traversal of the
  * collection may fail with an exception for self-referential instances where
  * the collection directly or indirectly contains itself. This includes the
  * {@code clone()}, {@code equals()}, {@code hashCode()} and {@code toString()}
  * methods. Implementations may optionally handle the self-referential scenario,
  * however most current implementations do not do so.
+ *
+ * 递归调用集合的某些操作可能失败
  *
  * <p>This interface is a member of the
  * <a href="{@docRoot}/../technotes/guides/collections/index.html">
@@ -120,6 +137,8 @@ import java.util.stream.StreamSupport;
  * synchronization protocol.  If a {@code Collection} implementation has a
  * specific synchronization protocol, then it must override default
  * implementations to apply that protocol.
+ *
+ * 默认方方法（继承或则其他）没有实现同步协议
  *
  * @param <E> the type of elements in this collection
  *
@@ -150,6 +169,9 @@ public interface Collection<E> extends Iterable<E> {
      * <tt>Integer.MAX_VALUE</tt>.
      *
      * @return the number of elements in this collection
+     *
+     * 集合的元素个数 最大 Integer.MAX_VALUE
+     *
      */
     int size();
 
@@ -157,6 +179,9 @@ public interface Collection<E> extends Iterable<E> {
      * Returns <tt>true</tt> if this collection contains no elements.
      *
      * @return <tt>true</tt> if this collection contains no elements
+     *
+     * 是否为空
+     *
      */
     boolean isEmpty();
 
@@ -175,6 +200,9 @@ public interface Collection<E> extends Iterable<E> {
      * @throws NullPointerException if the specified element is null and this
      *         collection does not permit null elements
      *         (<a href="#optional-restrictions">optional</a>)
+     *
+     *  是否包含指定元素
+     *
      */
     boolean contains(Object o);
 
@@ -185,6 +213,9 @@ public interface Collection<E> extends Iterable<E> {
      * guarantee).
      *
      * @return an <tt>Iterator</tt> over the elements in this collection
+     *
+     * 集合的迭代器
+     *
      */
     Iterator<E> iterator();
 
@@ -203,6 +234,10 @@ public interface Collection<E> extends Iterable<E> {
      * APIs.
      *
      * @return an array containing all of the elements in this collection
+     *
+     *
+     * 返回包含所有集合元素的安全数组，是数组和集合api的桥梁
+     *
      */
     Object[] toArray();
 
@@ -248,6 +283,9 @@ public interface Collection<E> extends Iterable<E> {
      *         is not a supertype of the runtime type of every element in
      *         this collection
      * @throws NullPointerException if the specified array is null
+     *
+     * 返回指定范型的数组
+     *
      */
     <T> T[] toArray(T[] a);
 
@@ -285,6 +323,9 @@ public interface Collection<E> extends Iterable<E> {
      *         prevents it from being added to this collection
      * @throws IllegalStateException if the element cannot be added at this
      *         time due to insertion restrictions
+     *
+     * add方法
+     *
      */
     boolean add(E e);
 
@@ -307,6 +348,8 @@ public interface Collection<E> extends Iterable<E> {
      *         (<a href="#optional-restrictions">optional</a>)
      * @throws UnsupportedOperationException if the <tt>remove</tt> operation
      *         is not supported by this collection
+     *
+     * 移除执行元素
      */
     boolean remove(Object o);
 
@@ -330,6 +373,8 @@ public interface Collection<E> extends Iterable<E> {
      *         (<a href="#optional-restrictions">optional</a>),
      *         or if the specified collection is null.
      * @see    #contains(Object)
+     *
+     *是否包含指定所有集合元素
      */
     boolean containsAll(Collection<?> c);
 
@@ -356,6 +401,8 @@ public interface Collection<E> extends Iterable<E> {
      * @throws IllegalStateException if not all the elements can be added at
      *         this time due to insertion restrictions
      * @see #add(Object)
+     *
+     * 批量添加集合元素
      */
     boolean addAll(Collection<? extends E> c);
 
@@ -381,6 +428,8 @@ public interface Collection<E> extends Iterable<E> {
      *         or if the specified collection is null
      * @see #remove(Object)
      * @see #contains(Object)
+     *
+     * 批量移除元素
      */
     boolean removeAll(Collection<?> c);
 
@@ -404,6 +453,11 @@ public interface Collection<E> extends Iterable<E> {
      *         from this collection.  Implementations may throw this exception if a
      *         matching element cannot be removed or if, in general, removal is not
      *         supported.
+     *
+     * 满足filter过滤器的元素删除
+     *  // 删除所有偶数元素
+     *   numbers.removeIf(e -> (e % 2) == 0);
+     *
      * @since 1.8
      */
     default boolean removeIf(Predicate<? super E> filter) {
@@ -440,6 +494,9 @@ public interface Collection<E> extends Iterable<E> {
      *         or if the specified collection is null
      * @see #remove(Object)
      * @see #contains(Object)
+     *
+     *只保留指定集合元素的集合，不相关元素统统删除
+     *
      */
     boolean retainAll(Collection<?> c);
 
@@ -449,6 +506,9 @@ public interface Collection<E> extends Iterable<E> {
      *
      * @throws UnsupportedOperationException if the <tt>clear</tt> operation
      *         is not supported by this collection
+     *
+     * remove集合的所有元素
+     *
      */
     void clear();
 
@@ -487,6 +547,11 @@ public interface Collection<E> extends Iterable<E> {
      * @see Object#equals(Object)
      * @see Set#equals(Object)
      * @see List#equals(Object)
+     *
+     * 指定元素和集合元素是否相等，
+     * 实现方法使用值相等，而不是引用相等
+     * equals方法是对称的 a.equals(b) b.equals(a)
+     *
      */
     boolean equals(Object o);
 
@@ -504,6 +569,11 @@ public interface Collection<E> extends Iterable<E> {
      *
      * @see Object#hashCode()
      * @see Object#equals(Object)
+     *
+     * 返回hash code
+     *
+     * 重写了equals方法必须重写hashcode方法，
+     * 用来满足约定c1.equals(c2) 意味着 c1.hashCode==c2.hashCode
      */
     int hashCode();
 
@@ -556,6 +626,10 @@ public interface Collection<E> extends Iterable<E> {
      *
      * @return a {@code Spliterator} over the elements in this collection
      * @since 1.8
+     *
+     * TODO
+     *
+     * 和stream一起使用，用来遍历和分割序列
      */
     @Override
     default Spliterator<E> spliterator() {
@@ -576,6 +650,8 @@ public interface Collection<E> extends Iterable<E> {
      *
      * @return a sequential {@code Stream} over the elements in this collection
      * @since 1.8
+     *
+     * 返回该集合为源的stream
      */
     default Stream<E> stream() {
         return StreamSupport.stream(spliterator(), false);
@@ -597,6 +673,8 @@ public interface Collection<E> extends Iterable<E> {
      * @return a possibly parallel {@code Stream} over the elements in this
      * collection
      * @since 1.8
+     *
+     * 返回一个可能的并行 stream，以此集合为源
      */
     default Stream<E> parallelStream() {
         return StreamSupport.stream(spliterator(), true);

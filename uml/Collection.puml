@@ -1,0 +1,75 @@
+@startuml
+interface Iterator<E> {
+ boolean hasNext();
+ E next();
+ default void remove() {}
+ default void forEachRemaining(Consumer<? super E> action) {}
+}
+
+
+interface Iterable<T> {
+Iterator<T> iterator();
+default void forEach(Consumer<? super T> action) {}
+default Spliterator<T> spliterator() {}
+}
+note left of Iterable::"iterator"
+子实现内部可以实现不同的iterator
+end note
+
+
+interface Collection<E> {
+int size();
+boolean isEmpty();
+boolean contains(Object o);
+Iterator<E> iterator();
+Object[] toArray();
+<T> T[] toArray(T[] a);
+boolean add(E e);
+boolean remove(Object o);
+boolean containsAll(Collection<?> c);
+boolean addAll(Collection<? extends E> c);
+boolean removeAll(Collection<?> c);
+default boolean removeIf(Predicate<? super E> filter) {}
+boolean retainAll(Collection<?> c);
+void clear();
+boolean equals(Object o);
+int hashCode();
+default Spliterator<E> spliterator() {     }
+default Stream<E> stream() { }
+default Stream<E> parallelStream() {}
+}
+note left  of Collection
+集合顶层接口
+end note
+
+
+abstract  class AbstractCollection<E> {
+AbstractCollection
+iterator
+size
+isEmpty
+contains
+toArray
+toArray
+finishToArray
+hugeCapacity
+add
+remove
+containsAll
+addAll
+removeAll
+retainAll
+clear
+toString
+}
+note left of AbstractCollection
+collection 的骨架实现，将实现的工作量降到最小
+end note
+
+
+AbstractCollection ..|> Collection
+Collection --|> Iterable
+Iterable *-- Iterator
+
+
+@enduml

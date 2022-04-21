@@ -48,10 +48,13 @@ public interface Annotation {
      * returns true if the specified object is an instance of the same
      * annotation type as this instance, all of whose members are equal
      * to the corresponding member of this annotation, as defined below:
+     * 指定对象和此注解类型相同，则返回true
      * <ul>
      *    <li>Two corresponding primitive typed members whose values are
      *    <tt>x</tt> and <tt>y</tt> are considered equal if <tt>x == y</tt>,
      *    unless their type is <tt>float</tt> or <tt>double</tt>.
+     *
+     *    x==y
      *
      *    <li>Two corresponding <tt>float</tt> members whose values
      *    are <tt>x</tt> and <tt>y</tt> are considered equal if
@@ -59,20 +62,33 @@ public interface Annotation {
      *    (Unlike the <tt>==</tt> operator, NaN is considered equal
      *    to itself, and <tt>0.0f</tt> unequal to <tt>-0.0f</tt>.)
      *
+     *    float
+     *    Float.valueOf(x).equals(Float.valueOf(y))
+     *
      *    <li>Two corresponding <tt>double</tt> members whose values
      *    are <tt>x</tt> and <tt>y</tt> are considered equal if
      *    <tt>Double.valueOf(x).equals(Double.valueOf(y))</tt>.
      *    (Unlike the <tt>==</tt> operator, NaN is considered equal
      *    to itself, and <tt>0.0</tt> unequal to <tt>-0.0</tt>.)
      *
+     *    double
+     *    Double.valueOf(x).equals(Double.valueOf(y))
+     *
      *    <li>Two corresponding <tt>String</tt>, <tt>Class</tt>, enum, or
      *    annotation typed members whose values are <tt>x</tt> and <tt>y</tt>
      *    are considered equal if <tt>x.equals(y)</tt>.  (Note that this
      *    definition is recursive for annotation typed members.)
      *
+     *    String
+     *    x.equals(y)
+     *
      *    <li>Two corresponding array typed members <tt>x</tt> and <tt>y</tt>
      *    are considered equal if <tt>Arrays.equals(x, y)</tt>, for the
      *    appropriate overloading of {@link java.util.Arrays#equals}.
+     *
+     *    array
+     *    Arrays.equals(x, y)
+     *
      * </ul>
      *
      * @return true if the specified object represents an annotation
@@ -87,9 +103,13 @@ public interface Annotation {
      * of its members (including those with default values), as defined
      * below:
      *
+     * 注解的hash code是所有成员的hash code总和
+     *
      * The hash code of an annotation member is (127 times the hash code
      * of the member-name as computed by {@link String#hashCode()}) XOR
      * the hash code of the member-value, as defined below:
+     *
+     * 注解hash code是 XOR 成员的 hash code
      *
      * <p>The hash code of a member-value depends on its type:
      * <ul>
@@ -100,16 +120,27 @@ public interface Annotation {
      *     {@link Character}, {@link Double}, {@link Float}, {@link Integer},
      *     {@link Long}, {@link Short}, or {@link Boolean}).
      *
+     *     原始hsah code
+     *     v=WrapperType.valueOf(v).hashcode()
+     *     WrapperType：V的原始类型 Byte，Character。。。
+     *
      * <li>The hash code of a string, enum, class, or annotation member-value
      I     <tt><i>v</i></tt> is computed as by calling
      *     <tt><i>v</i>.hashCode()</tt>.  (In the case of annotation
      *     member values, this is a recursive definition.)
+     *
+     *     string, enum, class, or annotation member-value
+     *      v.hashCode()
      *
      * <li>The hash code of an array member-value is computed by calling
      *     the appropriate overloading of
      *     {@link java.util.Arrays#hashCode(long[]) Arrays.hashCode}
      *     on the value.  (There is one overloading for each primitive
      *     type, and one for object reference types.)
+     *
+     *     array member-value
+     *     Arrays.hashCode()
+     *
      * </ul>
      *
      * @return the hash code of this annotation
@@ -131,6 +162,8 @@ public interface Annotation {
     /**
      * Returns the annotation type of this annotation.
      * @return the annotation type of this annotation
+     *
+     * 返回当前注解的注解类型
      */
     Class<? extends Annotation> annotationType();
 }

@@ -27,6 +27,13 @@
             <scope>test</scope>
         </dependency>
 
+        <!--plantUML-->
+        <dependency>
+            <groupId>net.sourceforge.plantuml</groupId>
+            <artifactId>plantuml</artifactId>
+            <version>8059</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -89,11 +96,11 @@
             </releases>
         </repository>
 
-        <repository>
+      <!--  <repository>
             <id>yonyoucloud</id>
             <name>yonyoucloud</name>
             <url>http://maven.yonyoucloud.com/nexus/content/groups/public/</url>
-        </repository>
+        </repository>-->
 
     </repositories>
 
@@ -111,10 +118,10 @@
             </snapshots>
         </pluginRepository>
 
-        <pluginRepository>
+       <!-- <pluginRepository>
             <id>yonyoucloud</id>
             <name>yonyoucloud</name>
             <url>http://maven.yonyoucloud.com/nexus/content/groups/public/</url>
-        </pluginRepository>
+        </pluginRepository>-->
     </pluginRepositories>
 </project>

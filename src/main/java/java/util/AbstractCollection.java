@@ -29,10 +29,17 @@ package java.util;
  * This class provides a skeletal implementation of the <tt>Collection</tt>
  * interface, to minimize the effort required to implement this interface. <p>
  *
+ * 提供Collection接口的骨架实现，最小化子类实现的工作量
+ *
  * To implement an unmodifiable collection, the programmer needs only to
  * extend this class and provide implementations for the <tt>iterator</tt> and
  * <tt>size</tt> methods.  (The iterator returned by the <tt>iterator</tt>
  * method must implement <tt>hasNext</tt> and <tt>next</tt>.)<p>
+ *
+ * 为了实现一个不可修改的集合，程序员应该只需要extends AbstractCollection，
+ * 并提供 iterator实现和size方法实现。（iterator返回的Iterator必须实现 hasNext()
+ * 和next方法
+ *
  *
  * To implement a modifiable collection, the programmer must additionally
  * override this class's <tt>add</tt> method (which otherwise throws an
@@ -40,13 +47,21 @@ package java.util;
  * <tt>iterator</tt> method must additionally implement its <tt>remove</tt>
  * method.<p>
  *
+ * 要实现一个可修改的collection，程序员必须另外override add方法（否则抛出UOE异常），
+ * iterator实现必须另外实现remove方法
+ *
  * The programmer should generally provide a void (no argument) and
  * <tt>Collection</tt> constructor, as per the recommendation in the
  * <tt>Collection</tt> interface specification.<p>
  *
+ * 根据Collection的建议，程序员应该提供一个void 的 no argument的 Collection
+ * 构造器
+ *
  * The documentation for each non-abstract method in this class describes its
  * implementation in detail.  Each of these methods may be overridden if
  * the collection being implemented admits a more efficient implementation.<p>
+ *
+ *每个非抽象方法都有实现的详细描述。如果有更有效的实现，可以覆盖这些方法。
  *
  * This class is a member of the
  * <a href="{@docRoot}/../technotes/guides/collections/index.html">
@@ -62,6 +77,9 @@ public abstract class AbstractCollection<E> implements Collection<E> {
     /**
      * Sole constructor.  (For invocation by subclass constructors, typically
      * implicit.)
+     *
+     * 唯一的构造器（为了子类的调用，通常是隐式的）
+     *
      */
     protected AbstractCollection() {
     }
@@ -72,6 +90,9 @@ public abstract class AbstractCollection<E> implements Collection<E> {
      * Returns an iterator over the elements contained in this collection.
      *
      * @return an iterator over the elements contained in this collection
+     *
+     * 返回collection包含元素的iterator
+     *
      */
     public abstract Iterator<E> iterator();
 
@@ -81,6 +102,8 @@ public abstract class AbstractCollection<E> implements Collection<E> {
      * {@inheritDoc}
      *
      * <p>This implementation returns <tt>size() == 0</tt>.
+     *
+     * size（）== 0
      */
     public boolean isEmpty() {
         return size() == 0;
@@ -91,6 +114,8 @@ public abstract class AbstractCollection<E> implements Collection<E> {
      *
      * <p>This implementation iterates over the elements in the collection,
      * checking each element in turn for equality with the specified element.
+     *
+     * 迭代collection元素，依次检查每个元素是否与指定元素相等
      *
      * @throws ClassCastException   {@inheritDoc}
      * @throws NullPointerException {@inheritDoc}
@@ -121,6 +146,8 @@ public abstract class AbstractCollection<E> implements Collection<E> {
      * concurrent modification during iteration.  The {@code size} method is
      * called only as an optimization hint; the correct result is returned
      * even if the iterator returns a different number of elements.
+     *
+     * 返回集合迭代器返回的所有元素。即使迭代器在删除元素
      *
      * <p>This method is equivalent to:
      *
@@ -157,6 +184,8 @@ public abstract class AbstractCollection<E> implements Collection<E> {
      * concurrent modification during iteration.  The {@code size} method is
      * called only as an optimization hint; the correct result is returned
      * even if the iterator returns a different number of elements.
+     *
+     * 返回集合迭代器返回的所有元素的数据，即使迭代器迭代期间 collection size发生了变化
      *
      * <p>This method is equivalent to:
      *
@@ -235,6 +264,7 @@ public abstract class AbstractCollection<E> implements Collection<E> {
         return (i == r.length) ? r : Arrays.copyOf(r, i);
     }
 
+    // 最大容量
     private static int hugeCapacity(int minCapacity) {
         if (minCapacity < 0) // overflow
             throw new OutOfMemoryError
@@ -251,6 +281,7 @@ public abstract class AbstractCollection<E> implements Collection<E> {
      *
      * <p>This implementation always throws an
      * <tt>UnsupportedOperationException</tt>.
+     * 子类必须实现，负责抛出UOE异常
      *
      * @throws UnsupportedOperationException {@inheritDoc}
      * @throws ClassCastException            {@inheritDoc}
@@ -269,10 +300,15 @@ public abstract class AbstractCollection<E> implements Collection<E> {
      * specified element.  If it finds the element, it removes the element
      * from the collection using the iterator's remove method.
      *
+     *
+     * 此实现迭代collection寻找指定元素。如果找到了，使用iterator.remove()方法移除元素
+     *
      * <p>Note that this implementation throws an
      * <tt>UnsupportedOperationException</tt> if the iterator returned by this
      * collection's iterator method does not implement the <tt>remove</tt>
      * method and this collection contains the specified object.
+     *
+     * 如果collection.iterator没有实现remove方法，如果包含指定元素，抛出UOE异常
      *
      * @throws UnsupportedOperationException {@inheritDoc}
      * @throws ClassCastException            {@inheritDoc}
@@ -309,6 +345,9 @@ public abstract class AbstractCollection<E> implements Collection<E> {
      * if it's contained in this collection.  If all elements are so
      * contained <tt>true</tt> is returned, otherwise <tt>false</tt>.
      *
+     * 迭代指定集合，检查返回元素是否包含在collection中。所有的元素都包含
+     * 返回true
+     *
      * @throws ClassCastException            {@inheritDoc}
      * @throws NullPointerException          {@inheritDoc}
      * @see #contains(Object)
@@ -326,9 +365,13 @@ public abstract class AbstractCollection<E> implements Collection<E> {
      * <p>This implementation iterates over the specified collection, and adds
      * each object returned by the iterator to this collection, in turn.
      *
+     * 迭代指定collection，将iterator返回的每个元素add到当前collection中
+     *
      * <p>Note that this implementation will throw an
      * <tt>UnsupportedOperationException</tt> unless <tt>add</tt> is
      * overridden (assuming the specified collection is non-empty).
+     *
+     * 指定集合非空，除非实现add方法，否则抛出UOE
      *
      * @throws UnsupportedOperationException {@inheritDoc}
      * @throws ClassCastException            {@inheritDoc}
@@ -354,11 +397,17 @@ public abstract class AbstractCollection<E> implements Collection<E> {
      * in the specified collection.  If it's so contained, it's removed from
      * this collection with the iterator's <tt>remove</tt> method.
      *
+     * 迭代当前collection，检查iterator返回的每个元素是否在指定collection c中。
+     * 如果在，会使用iterator.remove（）方法从当前collection被移除
+     *
      * <p>Note that this implementation will throw an
      * <tt>UnsupportedOperationException</tt> if the iterator returned by the
      * <tt>iterator</tt> method does not implement the <tt>remove</tt> method
      * and this collection contains one or more elements in common with the
      * specified collection.
+     *
+     * 如果collection包含指定collection一个或则多个元素，iterator如果不实现remove()方法，
+     * 将会抛出UOE
      *
      * @throws UnsupportedOperationException {@inheritDoc}
      * @throws ClassCastException            {@inheritDoc}
@@ -387,6 +436,9 @@ public abstract class AbstractCollection<E> implements Collection<E> {
      * element returned by the iterator in turn to see if it's contained
      * in the specified collection.  If it's not so contained, it's removed
      * from this collection with the iterator's <tt>remove</tt> method.
+     *
+     * 迭代当前collection，检查iterator返回的每个元素是否在指定collection c中。
+     * 如果不包含，使用iterator.remove()从当前collection移除
      *
      * <p>Note that this implementation will throw an
      * <tt>UnsupportedOperationException</tt> if the iterator returned by the
@@ -447,6 +499,8 @@ public abstract class AbstractCollection<E> implements Collection<E> {
      * (<tt>"[]"</tt>).  Adjacent elements are separated by the characters
      * <tt>", "</tt> (comma and space).  Elements are converted to strings as
      * by {@link String#valueOf(Object)}.
+     *
+     * 返回collection的string表示
      *
      * @return a string representation of this collection
      */
