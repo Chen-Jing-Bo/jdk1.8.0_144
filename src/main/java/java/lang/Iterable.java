@@ -82,6 +82,7 @@ public interface Iterable<T> {
      * @since 1.8
      *
      *为每个元素执行操作,null 的元素抛NPE
+     * jdk新增的default方法，解决接口修改和现有实现不兼容的问题
      */
     default void forEach(Consumer<? super T> action) {
         Objects.requireNonNull(action);

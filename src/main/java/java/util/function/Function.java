@@ -43,6 +43,8 @@ public interface Function<T, R> {
     /**
      * Applies this function to the given argument.
      *
+     * 任何参数，返回相同类型的结果
+     *
      * @param t the function argument
      * @return the function result
      */

@@ -33,6 +33,8 @@ import java.util.function.UnaryOperator;
  * inserted.  The user can access elements by their integer index (position in
  * the list), and search for elements in the list.<p>
  *
+ * 有序集合（序列），使用integer index访问elements,搜索elements
+ *
  * Unlike sets, lists typically allow duplicate elements.  More formally,
  * lists typically allow pairs of elements <tt>e1</tt> and <tt>e2</tt>
  * such that <tt>e1.equals(e2)</tt>, and they typically allow multiple
@@ -41,11 +43,18 @@ import java.util.function.UnaryOperator;
  * throwing runtime exceptions when the user attempts to insert them, but we
  * expect this usage to be rare.<p>
  *
+ * List允许重复elements，允许多个null elements
+ *
+ *
  * The <tt>List</tt> interface places additional stipulations, beyond those
  * specified in the <tt>Collection</tt> interface, on the contracts of the
  * <tt>iterator</tt>, <tt>add</tt>, <tt>remove</tt>, <tt>equals</tt>, and
  * <tt>hashCode</tt> methods.  Declarations for other inherited methods are
  * also included here for convenience.<p>
+ *
+ *List接口放置了额外的规定，超出了Collection接口指定的那些，在 iterator，
+ * add，remove，equals，hashCode方法上。
+ *
  *
  * The <tt>List</tt> interface provides four methods for positional (indexed)
  * access to list elements.  Lists (like Java arrays) are zero based.  Note
@@ -55,19 +64,30 @@ import java.util.function.UnaryOperator;
  * preferable to indexing through it if the caller does not know the
  * implementation.<p>
  *
+ * List接口提供了四种获取elements位置的方法。操作时间与某些实现的index value成正比
+ *
  * The <tt>List</tt> interface provides a special iterator, called a
  * <tt>ListIterator</tt>, that allows element insertion and replacement, and
  * bidirectional access in addition to the normal operations that the
  * <tt>Iterator</tt> interface provides.  A method is provided to obtain a
  * list iterator that starts at a specified position in the list.<p>
  *
+ * List 接口提供了特殊的iterator，称为 ListIterator，除了正常操作，还允许element 插入
+ * 替换，和双向访问。提供了从List指定位置获得list iterator的方法
+ *
  * The <tt>List</tt> interface provides two methods to search for a specified
  * object.  From a performance standpoint, these methods should be used with
  * caution.  In many implementations they will perform costly linear
  * searches.<p>
  *
+ * List interface提供两种方法搜索指定元素。从性能的角度，应当小心使用那些方法
+ *
+ *
  * The <tt>List</tt> interface provides two methods to efficiently insert and
  * remove multiple elements at an arbitrary point in the list.<p>
+ *
+ * List接口提供了两种方法有效率的方法在list的任务位置，insert和remove批量元素
+ *
  *
  * Note: While it is permissible for lists to contain themselves as elements,
  * extreme caution is advised: the <tt>equals</tt> and <tt>hashCode</tt>
@@ -86,6 +106,8 @@ import java.util.function.UnaryOperator;
  * exception or it may succeed, at the option of the implementation.
  * Such exceptions are marked as "optional" in the specification for this
  * interface.
+ *
+ * 不合格元素的处理，抛出NPE或则CCE
  *
  * <p>This interface is a member of the
  * <a href="{@docRoot}/../technotes/guides/collections/index.html">
@@ -382,6 +404,8 @@ public interface List<E> extends Collection<E> {
      * operator to that element.  Errors or runtime exceptions thrown by
      * the operator are relayed to the caller.
      *
+     * 将元素替换为，一元操作元素（加减乘除）结果
+     *
      * @implSpec
      * The default implementation is equivalent to, for this {@code list}:
      * <pre>{@code
@@ -416,6 +440,9 @@ public interface List<E> extends Collection<E> {
 
     /**
      * Sorts this list according to the order induced by the specified
+     *
+     * 根据指定的顺序排序元素
+     *
      * {@link Comparator}.
      *
      * <p>All elements in this list must be <i>mutually comparable</i> using the
@@ -423,11 +450,17 @@ public interface List<E> extends Collection<E> {
      * a {@code ClassCastException} for any elements {@code e1} and {@code e2}
      * in the list).
      *
+     * 通过指定的比较器，所有的元素必须是相互比较的，不能抛出CCE
+     *
      * <p>If the specified comparator is {@code null} then all elements in this
      * list must implement the {@link Comparable} interface and the elements'
      * {@linkplain Comparable natural ordering} should be used.
      *
+     * 指定比较器式null，所有List元素必须实现Comparable接口，使用elements自然排序
+     *
      * <p>This list must be modifiable, but need not be resizable.
+     *
+     * list必须是可修改的，但是不需要改变大小
      *
      * @implSpec
      * The default implementation obtains an array containing all elements in
@@ -435,6 +468,10 @@ public interface List<E> extends Collection<E> {
      * element from the corresponding position in the array. (This avoids the
      * n<sup>2</sup> log(n) performance that would result from attempting
      * to sort a linked list in place.)
+     *
+     * 默认实现获取一个包含list所有elements的array，排序array。遍历list，在array
+     * 的对应位置重置每个element（避免排序linked list 的log（n）必须）
+     *
      *
      * @implNote
      * This implementation is a stable, adaptive, iterative mergesort that
@@ -446,11 +483,19 @@ public interface List<E> extends Collection<E> {
      * for nearly sorted input arrays to n/2 object references for randomly
      * ordered input arrays.
      *
+     * 此实现是一种稳定的、自适应的、迭代的归并排序，当输入数组部分排序时，
+     * 它需要远少于 n lg(n) 比较，同时在输入数组随机排序时提供传统归并排序的性能。
+     * 如果输入数组接近排序，则实现需要大约 n 次比较。
+     * 临时存储要求从几乎排序的输入数组的小常数到随机排序的输入数组的 n2 对象引用不等。
+     *
      * <p>The implementation takes equal advantage of ascending and
      * descending order in its input array, and can take advantage of
      * ascending and descending order in different parts of the same
      * input array.  It is well-suited to merging two or more sorted arrays:
      * simply concatenate the arrays and sort the resulting array.
+     *
+     * 该实现在其输入数组中同等地利用升序和降序，并且可以在同一输入数组的不同部分利用升序和降序。
+     * 它非常适合合并两个或多个排序数组：只需连接数组并对结果数组进行排序。
      *
      * <p>The implementation was adapted from Tim Peters's list sort for Python
      * (<a href="http://svn.python.org/projects/python/trunk/Objects/listsort.txt">
@@ -458,6 +503,10 @@ public interface List<E> extends Collection<E> {
      * Sorting and Information Theoretic Complexity", in Proceedings of the
      * Fourth Annual ACM-SIAM Symposium on Discrete Algorithms, pp 467-474,
      * January 1993.
+     *
+     * <p>该实现改编自 Tim Peters 的 Python 列表排序.
+     * 它使用了 Peter McIlroy 在 1993 年 1 月的第四届 ACM-SIAM
+     * 离散算法年度研讨会论文集上的“乐观排序和信息理论复杂性”中的技术。
      *
      * @param c the {@code Comparator} used to compare list elements.
      *          A {@code null} value indicates that the elements'
