@@ -1,0 +1,25 @@
+@startuml
+interface Iterator<E> {
+ boolean hasNext();
+ E next();
+ default void remove() {}
+ default void forEachRemaining(Consumer<? super E> action) {}
+}
+
+interface ListIterator<E>{
+ListIterator
+hasNext
+next
+hasPrevious
+previous
+nextIndex
+previousIndex
+remove
+set
+add
+}
+
+ListIterator --|> Iterator
+
+
+@enduml

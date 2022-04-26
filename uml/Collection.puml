@@ -66,10 +66,92 @@ note left of AbstractCollection
 collection 的骨架实现，将实现的工作量降到最小
 end note
 
+interface List<E> {
+List
+size
+isEmpty
+contains
+iterator
+toArray
+toArray
+add
+remove
+containsAll
+addAll
+addAll
+removeAll
+retainAll
+replaceAll
+sort
+clear
+equals
+hashCode
+get
+set
+add
+remove
+indexOf
+lastIndexOf
+listIterator
+listIterator
+subList
+spliterator
+}
+
+Abstract AbstractList<E>{
+AbstractList
+Itr
+ListItr
+AbstractList
+add
+get
+set
+add
+remove
+indexOf
+lastIndexOf
+clear
+addAll
+iterator
+listIterator
+listIterator
+subList
+equals
+hashCode
+removeRange
+rangeCheckForAdd
+outOfBoundsMsg
+SubList
+SubList
+set
+get
+size
+add
+remove
+removeRange
+addAll
+addAll
+iterator
+listIterator
+subList
+rangeCheck
+rangeCheckForAdd
+outOfBoundsMsg
+checkForComodification
+RandomAccessSubList
+RandomAccessSubList
+subList
+}
+
 
 AbstractCollection ..|> Collection
 Collection --|> Iterable
 Iterable *-- Iterator
+
+List--|>Collection
+AbstractList--|>AbstractCollection
+AbstractList..|>List
+
 
 
 @enduml
