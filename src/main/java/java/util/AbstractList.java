@@ -32,9 +32,15 @@ package java.util;
  * access data (such as a linked list), {@link AbstractSequentialList} should
  * be used in preference to this class.
  *
+ * 提供了List 接口的骨架实现，最小化实现类的工作量，支持 random access（随机访问）数据（比如数组）
+ *
+ *要顺序访问data（比如 linked list） AbstractSequentialList应该优先使用
+ *
  * <p>To implement an unmodifiable list, the programmer needs only to extend
  * this class and provide implementations for the {@link #get(int)} and
  * {@link List#size() size()} methods.
+ *
+ * 要实现一个不可修改的list，程序员应该extends 当前class，并提供get和size（）方法实现
  *
  * <p>To implement a modifiable list, the programmer must additionally
  * override the {@link #set(int, Object) set(int, E)} method (which otherwise
@@ -42,9 +48,14 @@ package java.util;
  * variable-size the programmer must additionally override the
  * {@link #add(int, Object) add(int, E)} and {@link #remove(int)} methods.
  *
+ * 要实现可修改的list，程序员必须覆盖set（）方法，否则抛出UOE。如果list是可变
+ * 的，程序员必须覆盖add（）和remove（）方法
+ *
  * <p>The programmer should generally provide a void (no argument) and collection
  * constructor, as per the recommendation in the {@link Collection} interface
  * specification.
+ *
+ * 根据collection规范建议，程序员应该提供一个void（无参）和collection 构造器
  *
  * <p>Unlike the other abstract collection implementations, the programmer does
  * <i>not</i> have to provide an iterator implementation; the iterator and
@@ -55,9 +66,18 @@ package java.util;
  * {@link #add(int, Object) add(int, E)} and
  * {@link #remove(int)}.
  *
+ * 不像其他abstract collection实现，程序员不用提供iterator的实现；iterator和list iterator
+ * 已经被提供，在 random access访问方法之上：get,set,add,remove
+ *
+ *
+ *
  * <p>The documentation for each non-abstract method in this class describes its
  * implementation in detail.  Each of these methods may be overridden if the
  * collection being implemented admits a more efficient implementation.
+ *
+ * 每个非abstract方法都都详细的实现描述；如果collection 的实现提供更好的实现，
+ * 每个方法都可以被覆盖
+ *
  *
  * <p>This class is a member of the
  * <a href="{@docRoot}/../technotes/guides/collections/index.html">
