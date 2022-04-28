@@ -30,6 +30,9 @@ package java.lang;
  * Every class has {@code Object} as a superclass. All objects,
  * including arrays, implement the methods of this class.
  *
+ * object class 层次的root，Object是所有class的 超类。
+ * 所有对象，包括array 实现了Object的方法
+ *
  * @author  unascribed
  * @see     java.lang.Class
  * @since   JDK1.0
@@ -38,7 +41,7 @@ public class Object {
 
     private static native void registerNatives();
     static {
-        registerNatives();
+        registerNatives();  // 将C的方法映射到java中的native方法中，实现方法命名的解耦
     }
 
     /**
@@ -59,6 +62,9 @@ public class Object {
      * @return The {@code Class} object that represents the runtime
      *         class of this object.
      * @jls 15.8.2 Class Literals
+     *
+     * 返回Object对象的class对象的class<?>,效果同Object.class,
+     * 涉及到Java中的反射知识
      */
     public final native Class<?> getClass();
 
@@ -96,6 +102,31 @@ public class Object {
      * @return  a hash code value for this object.
      * @see     java.lang.Object#equals(java.lang.Object)
      * @see     java.lang.System#identityHashCode
+     *
+     * hashCode()方法返回一个整形数值，表示该对象的哈希码值。
+     *
+     * hashCode()具有如下约定：
+     *
+     * 1).在Java应用程序程序执行期间，对于同一对象多次调用hashCode()方法时，
+     * 其返回的哈希码是相同的，前提是将对象进行equals比较时所用的标尺信息未做修改。
+     * 在Java应用程序的一次执行到另外一次执行，同一对象的hashCode()返回的哈希码无须保持一致；
+     * 2).如果两个对象相等（依据：调用equals()方法），那么这两个对象调用hashCode()返回的哈希码也必须相等；
+     * 3).反之，两个对象调用hasCode()返回的哈希码相等，这两个对象不一定相等。
+     * 即严格的数学逻辑表示为： 两个对象相等 <=>  equals()相等  => hashCode()相等。
+     * 因此，重写equlas()方法必须重写hashCode()方法，
+     * 以保证此逻辑严格成立，同时可以推理出：hasCode()不相等 => equals（）不相等 <=> 两个对象不相等。
+     * 可能有人在此产生疑问：既然比较两个对象是否相等的唯一条件（也是冲要条件）是equals，
+     * 那么为什么还要弄出一个hashCode()，并且进行如此约定，弄得这么麻烦？
+     * 其实，这主要体现在hashCode()方法的作用上，其主要用于增强哈希表的性能。
+     * 以集合类中，以Set为例，当新加一个对象时，需要判断现有集合中是否已经存在与此对象相等的对象，
+     * 如果没有hashCode()方法，需要将Set进行一次遍历，并逐一用equals()方法判断两个对象是否相等，
+     * 此种算法时间复杂度为o(n)。通过借助于hasCode方法，先计算出即将新加入对象的哈希码，
+     * 然后根据哈希算法计算出此对象的位置，直接判断此位置上是否已有对象即可。（注：Set的底层用的是Map的原理实现）
+
+     * 在此需要纠正一个理解上的误区：对象的hashCode()返回的不是对象所在的物理内存地址。
+     * 甚至也不一定是对象的逻辑地址，hashCode()相同的两个对象，不一定相等，换言之，不相等的两个对象，hashCode()返回的哈希码可能相同。
+     *
+     * 因此，在上述代码中，重写了equals()方法后，需要重写hashCode()方法。
      */
     public native int hashCode();
 
@@ -144,6 +175,10 @@ public class Object {
      *          argument; {@code false} otherwise.
      * @see     #hashCode()
      * @see     java.util.HashMap
+     *
+     * 默认比较 ==比较；是变量值完成相同（对于基础类型，地址中存储的是值，引用类型则存储指向实际对象的地址）；
+     * 子类需要根据需求重写方法
+     * 重写equals方法必须重写hashcode方法
      */
     public boolean equals(Object obj) {
         return (this == obj);
@@ -208,6 +243,14 @@ public class Object {
      *               throw this exception to indicate that an instance cannot
      *               be cloned.
      * @see java.lang.Cloneable
+     *
+     * 对象的浅拷贝，拷贝引用
+     *
+     * clone()的正确调用是需要实现Cloneable接口，如果没有实现Cloneable接口，
+     * 并且子类直接调用Object类的clone()方法，则会抛出CloneNotSupportedException异常。
+     * Cloneable接口仅是一个表示接口，接口本身不包含任何方法，
+     * 用来指示Object.clone()可以合法的被子类引用所调用。
+     *
      */
     protected native Object clone() throws CloneNotSupportedException;
 
@@ -231,6 +274,9 @@ public class Object {
      * </pre></blockquote>
      *
      * @return  a string representation of the object.
+     *
+     * class name @ hashCode()的16进制表示
+     *
      */
     public String toString() {
         return getClass().getName() + "@" + Integer.toHexString(hashCode());
@@ -267,6 +313,8 @@ public class Object {
      *               the owner of this object's monitor.
      * @see        java.lang.Object#notifyAll()
      * @see        java.lang.Object#wait()
+     *
+     *唤醒在此对象监视器上等待的单个线程/所有线程。
      */
     public final native void notify();
 
@@ -291,6 +339,9 @@ public class Object {
      *               the owner of this object's monitor.
      * @see        java.lang.Object#notify()
      * @see        java.lang.Object#wait()
+     *
+     * 唤醒在此对象监视器上等待的单个线程/所有线程。
+     *
      */
     public final native void notifyAll();
 
@@ -378,6 +429,10 @@ public class Object {
      *             this exception is thrown.
      * @see        java.lang.Object#notify()
      * @see        java.lang.Object#notifyAll()
+     *
+     * 调用此方法所在的当前线程等待，直到在其他线程上调用此方法的主调
+     * （某一对象）的notisfy()/notisfyAll()方法，或超过指定的超时时间量。
+     *
      */
     public final native void wait(long timeout) throws InterruptedException;
 
@@ -442,6 +497,10 @@ public class Object {
      *             was waiting for a notification.  The <i>interrupted
      *             status</i> of the current thread is cleared when
      *             this exception is thrown.
+     *
+     * 调用此方法所在的当前线程等待，直到在其他线程上调用此方法的主调（某一对象）
+     * 的notisfy()/notisfyAll()方法，或超过指定的超时时间量。
+     *
      */
     public final void wait(long timeout, int nanos) throws InterruptedException {
         if (timeout < 0) {
@@ -497,6 +556,9 @@ public class Object {
      *             this exception is thrown.
      * @see        java.lang.Object#notify()
      * @see        java.lang.Object#notifyAll()
+     *
+     *调用此方法所在的当前线程等待，直到在其他线程上调用此方法的主调（某一对象）的notify()/notifyAll()方法。
+     *
      */
     public final void wait() throws InterruptedException {
         wait(0);
@@ -551,6 +613,9 @@ public class Object {
      * @see java.lang.ref.WeakReference
      * @see java.lang.ref.PhantomReference
      * @jls 12.6 Finalization of Class Instances
+     *
+     *finalize方法主要与Java垃圾回收机制有关
+     *
      */
     protected void finalize() throws Throwable { }
 }
