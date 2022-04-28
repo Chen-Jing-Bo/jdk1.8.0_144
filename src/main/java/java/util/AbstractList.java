@@ -100,6 +100,8 @@ public abstract class AbstractList<E> extends AbstractCollection<E> implements L
      * Appends the specified element to the end of this list (optional
      * operation).
      *
+     * 在list尾部加入指定element
+     *
      * <p>Lists that support this operation may place limitations on what
      * elements may be added to this list.  In particular, some
      * lists will refuse to add null elements, and others will impose
@@ -107,11 +109,16 @@ public abstract class AbstractList<E> extends AbstractCollection<E> implements L
      * classes should clearly specify in their documentation any restrictions
      * on what elements may be added.
      *
+     * 支持此操作的list可能限制添加的element。特别的，有些list拒绝添加 null 的element，
+     * 有的将会限制add element的类型。List class 应该在文档中，明确指定添加元素的限制。
+     *
      * <p>This implementation calls {@code add(size(), e)}.
      *
      * <p>Note that this implementation throws an
      * {@code UnsupportedOperationException} unless
      * {@link #add(int, Object) add(int, E)} is overridden.
+     *
+     * 除非重写 add方法，否则抛出UOE
      *
      * @param e element to be appended to this list
      * @return {@code true} (as specified by {@link Collection#add})
@@ -191,19 +198,22 @@ public abstract class AbstractList<E> extends AbstractCollection<E> implements L
      * {@code listIterator()}).  Then, it iterates over the list until the
      * specified element is found or the end of the list is reached.
      *
+     * 先获取一个list iterator。然后，iterator list 直到找到指定element或则
+     * 到达list end
+     *
      * @throws ClassCastException   {@inheritDoc}
      * @throws NullPointerException {@inheritDoc}
      */
     public int indexOf(Object o) {
-        ListIterator<E> it = listIterator();
+        ListIterator<E> it = listIterator();    // 获取一个listIterator
         if (o==null) {
             while (it.hasNext())
-                if (it.next()==null)
-                    return it.previousIndex();
+                if (it.next()==null)        //cursor下移一位
+                    return it.previousIndex();  // cursor返回到当前位置
         } else {
             while (it.hasNext())
-                if (o.equals(it.next()))
-                    return it.previousIndex();
+                if (o.equals(it.next()))    // cursor下移一位
+                    return it.previousIndex();  // cursor返回到当前位置
         }
         return -1;
     }
@@ -220,11 +230,11 @@ public abstract class AbstractList<E> extends AbstractCollection<E> implements L
      * @throws NullPointerException {@inheritDoc}
      */
     public int lastIndexOf(Object o) {
-        ListIterator<E> it = listIterator(size());
+        ListIterator<E> it = listIterator(size());  // cursor 指向尾部+1的位置
         if (o==null) {
             while (it.hasPrevious())
-                if (it.previous()==null)
-                    return it.nextIndex();
+                if (it.previous()==null)    // cursor前移动
+                    return it.nextIndex();  // cursor后移一位（回到源位置）
         } else {
             while (it.hasPrevious())
                 if (o.equals(it.previous()))
@@ -239,6 +249,8 @@ public abstract class AbstractList<E> extends AbstractCollection<E> implements L
     /**
      * Removes all of the elements from this list (optional operation).
      * The list will be empty after this call returns.
+     *
+     * 清空list
      *
      * <p>This implementation calls {@code removeRange(0, size())}.
      *
@@ -277,7 +289,7 @@ public abstract class AbstractList<E> extends AbstractCollection<E> implements L
         rangeCheckForAdd(index);
         boolean modified = false;
         for (E e : c) {
-            add(index++, e);
+            add(index++, e);    // 外部add方法
             modified = true;
         }
         return modified;
@@ -342,7 +354,7 @@ public abstract class AbstractList<E> extends AbstractCollection<E> implements L
      * @throws IndexOutOfBoundsException {@inheritDoc}
      */
     public ListIterator<E> listIterator(final int index) {
-        rangeCheckForAdd(index);
+        rangeCheckForAdd(index);    // index range check
 
         return new ListItr(index);
     }
@@ -350,6 +362,8 @@ public abstract class AbstractList<E> extends AbstractCollection<E> implements L
     private class Itr implements Iterator<E> {
         /**
          * Index of element to be returned by subsequent call to next.
+         *
+         *下一次调用next返回的element index
          */
         int cursor = 0;
 
@@ -357,6 +371,10 @@ public abstract class AbstractList<E> extends AbstractCollection<E> implements L
          * Index of element returned by most recent call to next or
          * previous.  Reset to -1 if this element is deleted by a call
          * to remove.
+         *
+         * 最近一次调用next或则 previous返回element index。delete被调用，
+         * 调用remove方法删除了element，reset为-1
+         *
          */
         int lastRet = -1;
 
@@ -364,20 +382,24 @@ public abstract class AbstractList<E> extends AbstractCollection<E> implements L
          * The modCount value that the iterator believes that the backing
          * List should have.  If this expectation is violated, the iterator
          * has detected concurrent modification.
+         *
+         * iterator认为list应该持有的modCount的值。如果违反预期，iterator检测
+         * 并发修改
+         *
          */
         int expectedModCount = modCount;
 
         public boolean hasNext() {
-            return cursor != size();
+            return cursor != size();    //外部size方法
         }
 
         public E next() {
-            checkForComodification();
+            checkForComodification();   // 检查并发修改
             try {
                 int i = cursor;
-                E next = get(i);
+                E next = get(i);    // 外部get方法
                 lastRet = i;
-                cursor = i + 1;
+                cursor = i + 1;     // cursor下移
                 return next;
             } catch (IndexOutOfBoundsException e) {
                 checkForComodification();
@@ -386,7 +408,7 @@ public abstract class AbstractList<E> extends AbstractCollection<E> implements L
         }
 
         public void remove() {
-            if (lastRet < 0)
+            if (lastRet < 0)        // 删除为reset-1
                 throw new IllegalStateException();
             checkForComodification();
 
@@ -401,6 +423,7 @@ public abstract class AbstractList<E> extends AbstractCollection<E> implements L
             }
         }
 
+        // 检查并发修改
         final void checkForComodification() {
             if (modCount != expectedModCount)
                 throw new ConcurrentModificationException();
@@ -417,11 +440,11 @@ public abstract class AbstractList<E> extends AbstractCollection<E> implements L
         }
 
         public E previous() {
-            checkForComodification();
+            checkForComodification();       // 并发修改判断
             try {
-                int i = cursor - 1;
+                int i = cursor - 1;     // 上个cursor-1
                 E previous = get(i);
-                lastRet = cursor = i;
+                lastRet = cursor = i;   // cursor左移一位
                 return previous;
             } catch (IndexOutOfBoundsException e) {
                 checkForComodification();
@@ -443,7 +466,7 @@ public abstract class AbstractList<E> extends AbstractCollection<E> implements L
             checkForComodification();
 
             try {
-                AbstractList.this.set(lastRet, e);
+                AbstractList.this.set(lastRet, e);      // 外部set方法
                 expectedModCount = modCount;
             } catch (IndexOutOfBoundsException ex) {
                 throw new ConcurrentModificationException();
@@ -455,7 +478,7 @@ public abstract class AbstractList<E> extends AbstractCollection<E> implements L
 
             try {
                 int i = cursor;
-                AbstractList.this.add(i, e);
+                AbstractList.this.add(i, e);        // 外部add方法
                 lastRet = -1;
                 cursor = i + 1;
                 expectedModCount = modCount;
@@ -499,6 +522,8 @@ public abstract class AbstractList<E> extends AbstractCollection<E> implements L
      *         {@code (fromIndex < 0 || toIndex > size)}
      * @throws IllegalArgumentException if the endpoint indices are out of order
      *         {@code (fromIndex > toIndex)}
+     *
+     * 返回 List的视图，修改sublist影响原list
      */
     public List<E> subList(int fromIndex, int toIndex) {
         return (this instanceof RandomAccess ?
@@ -554,6 +579,9 @@ public abstract class AbstractList<E> extends AbstractCollection<E> implements L
      * method.
      *
      * @return the hash code value for this list
+     *
+     * list的hashcode
+     * 
      */
     public int hashCode() {
         int hashCode = 1;
@@ -588,7 +616,7 @@ public abstract class AbstractList<E> extends AbstractCollection<E> implements L
         ListIterator<E> it = listIterator(fromIndex);
         for (int i=0, n=toIndex-fromIndex; i<n; i++) {
             it.next();
-            it.remove();
+            it.remove();    // 外部remove方法
         }
     }
 
