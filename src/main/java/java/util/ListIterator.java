@@ -40,10 +40,20 @@ package java.util;
  *                      Element(0)   Element(1)   Element(2)   ... Element(n-1)
  * cursor positions:  ^            ^            ^            ^                  ^
  * </PRE>
+ *
+ * List的迭代器，允许程序员在list的任何方向遍历，在迭代时修改list，获取iterator的当前位置。
+ * ListIterator没有没有current element；他的 游标通常在previous（）和next（）方法调用返回元素
+ * 的之间。
+ * 长度为n的list的iterator含有n+1的游标
+ *
+ *
  * Note that the {@link #remove} and {@link #set(Object)} methods are
  * <i>not</i> defined in terms of the cursor position;  they are defined to
  * operate on the last element returned by a call to {@link #next} or
  * {@link #previous()}.
+ *
+ * 注意remove（）和set（）方法不是根据游标位置定义的；他们是被定义
+ * 操作调用next（）或则previous（）返回的最后一个元素
  *
  * <p>This interface is a member of the
  * <a href="{@docRoot}/../technotes/guides/collections/index.html">
@@ -68,6 +78,8 @@ public interface ListIterator<E> extends Iterator<E> {
      *
      * @return {@code true} if the list iterator has more elements when
      *         traversing the list in the forward direction
+     *
+     * 向前遍历，有更多元素，返回true
      */
     boolean hasNext();
 
@@ -77,6 +89,10 @@ public interface ListIterator<E> extends Iterator<E> {
      * or intermixed with calls to {@link #previous} to go back and forth.
      * (Note that alternating calls to {@code next} and {@code previous}
      * will return the same element repeatedly.)
+     *
+     * 返回集合的下一个元素并且游标前进。此方法可以重复调用来iterator的list，
+     * 或则和previous（）方法混合调用回退和向前。注意next和previous方法
+     * 将会返回重复的element
      *
      * @return the next element in the list
      * @throws NoSuchElementException if the iteration has no next element
@@ -88,6 +104,8 @@ public interface ListIterator<E> extends Iterator<E> {
      * traversing the list in the reverse direction.  (In other words,
      * returns {@code true} if {@link #previous} would return an element
      * rather than throwing an exception.)
+     *
+     *如果反向遍历list，List iterator有element，返回true。
      *
      * @return {@code true} if the list iterator has more elements when
      *         traversing the list in the reverse direction
@@ -102,6 +120,10 @@ public interface ListIterator<E> extends Iterator<E> {
      * to {@code next} and {@code previous} will return the same
      * element repeatedly.)
      *
+     * 返回前一个element，并且将游标后移。此方法可以重复调用来向后iterator list，
+     * 或则和next混合调用来后退和前进，将会返回重复的element
+     *
+     *
      * @return the previous element in the list
      * @throws NoSuchElementException if the iteration has no previous
      *         element
@@ -112,6 +134,9 @@ public interface ListIterator<E> extends Iterator<E> {
      * Returns the index of the element that would be returned by a
      * subsequent call to {@link #next}. (Returns list size if the list
      * iterator is at the end of the list.)
+     *
+     * next方法的后继调用，返回element的index。
+     *
      *
      * @return the index of the element that would be returned by a
      *         subsequent call to {@code next}, or list size if the list
@@ -127,6 +152,9 @@ public interface ListIterator<E> extends Iterator<E> {
      * @return the index of the element that would be returned by a
      *         subsequent call to {@code previous}, or -1 if the list
      *         iterator is at the beginning of the list
+     *
+     * previous方法的后继调用，返回element 的 index
+     *
      */
     int previousIndex();
 
@@ -146,6 +174,11 @@ public interface ListIterator<E> extends Iterator<E> {
      *         {@code previous} have been called, or {@code remove} or
      *         {@code add} have been called after the last call to
      *         {@code next} or {@code previous}
+     *
+     * 将next和previous方法返回的最后一个元素remove（可选操作）。每次调用
+     * next和previous方法此方法只能调用一次。只有在最后一次调用next和previous
+     * 方法之后没有调用add方法，才能进行此操作。
+     *
      */
     void remove();
 
@@ -155,6 +188,10 @@ public interface ListIterator<E> extends Iterator<E> {
      * This call can be made only if neither {@link #remove} nor {@link
      * #add} have been called after the last call to {@code next} or
      * {@code previous}.
+     *
+     * 用指定element替换 next或则previous返回的最后一个元素。
+     * 只有next或则previous方法调用之后调用remove或则add方法才能进行此调用
+     *
      *
      * @param e the element with which to replace the last element returned by
      *          {@code next} or {@code previous}
@@ -182,6 +219,9 @@ public interface ListIterator<E> extends Iterator<E> {
      * subsequent call to {@code previous} would return the new element.
      * (This call increases by one the value that would be returned by a
      * call to {@code nextIndex} or {@code previousIndex}.)
+     *
+     * 向list中插入指定元素。在next返回元素之前插入，在previous返回的元素之后插入
+     *
      *
      * @param e the element to insert
      * @throws UnsupportedOperationException if the {@code add} method is
