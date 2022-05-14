@@ -6,6 +6,6 @@ interface Iterable<T>{
 interface Collection<E> extends Iterable
 abstract class AbstractCollection<E> implements Collection
 interface List<E> extends Collection
-abstract class AbstractList<E> implements List
+abstract class AbstractList<E>  extends AbstractCollection implements List
 
 @enduml
