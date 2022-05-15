@@ -32,9 +32,15 @@ import java.util.function.Consumer;
  * interfaces.  Implements all optional list operations, and permits all
  * elements (including {@code null}).
  *
+ * {@code List} 和 {@code Deque} 接口的双向链表实现。实现所有可选列表操作，
+ * 并允许所有元素（包括 {@code null}）
+ *
  * <p>All of the operations perform as could be expected for a doubly-linked
  * list.  Operations that index into the list will traverse the list from
  * the beginning or the end, whichever is closer to the specified index.
+ *
+ * <p>所有操作都按照双向链表的预期执行。索引到列表中的操作将从开头或结尾遍历列表，
+ * 以更接近指定索引的为准。
  *
  * <p><strong>Note that this implementation is not synchronized.</strong>
  * If multiple threads access a linked list concurrently, and at least
@@ -45,11 +51,22 @@ import java.util.function.Consumer;
  * accomplished by synchronizing on some object that naturally
  * encapsulates the list.
  *
+ * <p><strong>注意这个实现是不同步的。<strong>如果多个线程同时访问一个链表，
+ * 并且至少有一个线程在结构上修改了链表，它<i>必须<i>在外部同步。
+ * （结构修改是添加或删除一个或多个元素的任何操作；仅设置元素的值不是结构修改。）
+ * 这通常是通过同步一些自然封装列表的对象来完成的。
+ *
+ *
  * If no such object exists, the list should be "wrapped" using the
  * {@link Collections#synchronizedList Collections.synchronizedList}
  * method.  This is best done at creation time, to prevent accidental
  * unsynchronized access to the list:<pre>
  *   List list = Collections.synchronizedList(new LinkedList(...));</pre>
+ *
+ * 如果不存在这样的对象，则应使用 {@link CollectionssynchronizedList Collections.synchronizedList}
+ * 方法“包装”该列表。这最好在创建时完成，以防止对列表的意外不同步访问：
+ * <pre> List list = Collections.synchronizedList(new LinkedList(...));<pre>
+ *
  *
  * <p>The iterators returned by this class's {@code iterator} and
  * {@code listIterator} methods are <i>fail-fast</i>: if the list is
@@ -61,6 +78,12 @@ import java.util.function.Consumer;
  * risking arbitrary, non-deterministic behavior at an undetermined
  * time in the future.
  *
+ * <p>此类的 {@code iterator} 和 {@code listIterator} 方法返回的迭代器是 <i>fail-fast<i>：
+ * 如果列表在创建迭代器后的任何时间以任何方式进行了结构修改除非通过迭代器自己的
+ * {@code remove} 或 {@code add} 方法，
+ * 否则迭代器将抛出 {@link ConcurrentModificationException}。
+ * 因此，面对并发修改，迭代器快速而干净地失败，而不是在未来不确定的时间冒任意的、非确定性的行为。
+ *
  * <p>Note that the fail-fast behavior of an iterator cannot be guaranteed
  * as it is, generally speaking, impossible to make any hard guarantees in the
  * presence of unsynchronized concurrent modification.  Fail-fast iterators
@@ -68,6 +91,11 @@ import java.util.function.Consumer;
  * Therefore, it would be wrong to write a program that depended on this
  * exception for its correctness:   <i>the fail-fast behavior of iterators
  * should be used only to detect bugs.</i>
+ *
+ * <p>请注意，无法保证迭代器的快速失败行为，因为一般来说，
+ * 在存在不同步的并发修改的情况下无法做出任何硬保证。
+ * 快速失败的迭代器会尽最大努力抛出 {@code ConcurrentModificationException}。
+ * 因此，编写一个依赖于该异常的正确性的程序是错误的：<i>迭代器的快速失败行为应该只用于检测错误。<i>
  *
  * <p>This class is a member of the
  * <a href="{@docRoot}/../technotes/guides/collections/index.html">

@@ -1,4 +1,8 @@
 @startuml
+'interface RandomAccess
+'interface Cloneable
+'interface java.io.Serializable
+
 interface Iterable<T>{
  Iterator<E>
  }
@@ -7,5 +11,13 @@ interface Collection<E> extends Iterable
 abstract class AbstractCollection<E> implements Collection
 interface List<E> extends Collection
 abstract class AbstractList<E>  extends AbstractCollection implements List
+class ArrayList<E> extends AbstractList implements List
+class Vector<E> extends AbstractList implements List
+class Queue extends Collection
+class Deque extends Queue
+
+class AbstractSequentialList extends AbstractList
+class LinkedList extends AbstractSequentialList implements List,Deque
+
 
 @enduml
